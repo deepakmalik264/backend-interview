@@ -1,110 +1,154 @@
 # WIN Backend Engineering Interview
 
-## Scenario
-
-Your mission is to build a portion of an order management system. You need to provide a service that allows other systems and teams to obtain information about orders.
+The Order Management System is a web service API built using Node.js and Express.js. It provides functionality to manage orders and services. The system follows the Model-View-Controller (MVC) architecture and uses a MongoDB database for data storage. It exposes endpoints for retrieving orders and services, as well as creating orders and services.
+Database used :  MongoDB
 
 ## Deliverables
 
-There are two deliverables for this project:
+╔═════════════════════════════════════════╗
+║       ServiceRecords API Documentation    ║
+╚═════════════════════════════════════════╝
 
-1. An internal web service API for managing orders
-2. A test suite to validate the web service and library work as expected
+Base URL:
+http://localhost:9000
 
-### General
+Endpoints:
+1. CreateServiceRecord
+   Method: POST
+   Endpoint: /serviceRecord/create-service-record
+   Request Header:
+      Content-Type: application/json
+   Request Body:
+      {
+          "name": "Testing5"
+      }
 
-- Please use either **JavaScript/TypeScript or Python**.
-- You may use any framework, such as a web framework or test framework, to help you complete the project.
-- You may store the data for this system in any database you choose, however we've included a Docker image loaded with Postgres in this repo.
-- You may model the data any way you'd like, including adding data beyond the samples provided.
+2. UpdateServiceRecord
+   Method: PUT
+   Endpoint: /serviceRecord/update/{recordId}
+   Request Header:
+      Content-Type: application/json
+   URL Parameters:
+      recordId: [Unique Record ID]
+   Request Body:
+      {
+          "name": "Analysis"
+      }
 
-### Web Service
+3. GetServiceRecord
+   Method: GET
+   Endpoint: /serviceRecord/{recordId}
+   URL Parameters:
+      recordId: [Unique Record ID]
 
-- Your service should implement several endpoints that accept POST, GET, PUT and DELETE requests. Also 1 endpoint that accepts GET all orders.
-- Your service should handle edge cases appropriately and return appropriate HTTP status codes.
-- Your service should return an error on creation/updating an order within 3 hrs of a pre-existing order.
-- Your service should return JSON results.
-- Your service should have at least one test.
+4. DeleteServiceRecord
+   Method: DELETE
+   Endpoint: /serviceRecord/delete/{recordId}
+   URL Parameters:
+      recordId: [Unique Record ID]
 
-## Sample Data
+5. GetAllServiceRecords
+   Method: GET
+   Endpoint: /serviceRecord/get-all-service-records
 
-Below is some sample data you can use to populate your database. Feel free to extend or modify this data for your project:
+Response:
+- All endpoints return responses with appropriate HTTP status codes.
+- Response content (JSON format) contains relevant data or error messages.
 
-Service Records
+Example Usage (cURL commands):
+1. Create a new service record:
+   curl -X POST -H "Content-Type: application/json" -d '{"name": "Testing5"}' http://localhost:9000/serviceRecord/create-service-record
 
-```json
-[
-  {
-    "id": 123,
-    "name": "Inspection"
-  },
-  {
-    "id": 789,
-    "name": "Testing"
-  },
-  {
-    "id": 456,
-    "name": "Analysis"
-  }
-]
-```
+2. Update an existing service record:
+   curl -X PUT -H "Content-Type: application/json" -d '{"name": "Analysis"}' http://localhost:9000/serviceRecord/update/[Record ID]
 
-Orders
+3. Retrieve information about a specific service record:
+   curl http://localhost:9000/serviceRecord/[Record ID]
 
-```json
-[
-  {
-    "id": "223",
-    "datetime": "2022-11-01T11:11:11.111Z",
-    "totalfee": 100,
-    "services": [
-        {
-        "id": "123",
-        }
-    ]
-  },
-  {
-    "id": "224",
-    "datetime": "2022-11-01T11:11:11.111Z",
-    "totalfee": 100,
-    "services": [
-        {
-        "id": "789",
-        }
-    ]
-  },
-  {
-    "id": "225",
-    "datetime": "2022-11-01T11:11:11.111Z",
-    "totalfee": 100,
-    "services": [
-        {
-        "id": "456",
-        }
-    ]
-  }
-]
-```
+4. Delete a specific service record:
+   curl -X DELETE http://localhost:9000/serviceRecord/delete/[Record ID]
 
-## Duration
+5. Retrieve a list of all service records:
+   curl http://localhost:9000/serviceRecord/get-all-service-records
 
-Up to 2 hours.
+Important Notes:
+- Ensure proper authorization and permissions.
+- Use HTTPS in production.
+- Handle responses and errors as needed.
 
-## Submission
-1.  Clone this repo
-2.  Create Web Services and tests
-3.  Submit a Pull Request (PR)
-4.  In the PR, include a README that includes the following:
-      - A description of your solution at a high-level, including language used, framework used, roughly how it works, etc.
-      - What trade-offs you made
-      - Any assumptions you made that affected your solution
-      - What you would change if you built this for production
-      - Brief instructions on how to setup the environment to run your project
-      - What parts of the spec were completed, how much time you spent, and any particular problems you ran into
+This documentation provides a basic overview of the ServiceRecords API.
+Refer to the API documentation for detailed info.
 
-## Evaluation
-We are looking for: 
-1. Communication
-2. Solution Design
-3. Completeness
-4. Code clarity / readability
+╔═════════════════════════════════════════╗
+║            Order API Documentation          ║
+╚═════════════════════════════════════════╝
+
+Base URL:
+http://localhost:9000
+
+Endpoints:
+1. CreateOrder
+   Method: POST
+   Endpoint: /api/order
+   Request Header:
+      Content-Type: application/json
+   Request Body:
+      {
+          "totalFee": 20,
+          "serviceIds": [{"id": "649970053ff37d61f1c5c0aa"}, {"id": "649970053ff37d61f1c5c0ac"}],
+          "userId": 1
+      }
+
+2. updateOrder
+   Method: PUT
+   Endpoint: /api/order/[Order ID]
+   Request Header:
+      Content-Type: application/json
+   Request Body:
+      {
+          "amount": 2,
+          "serviceIds": [{"id": "649970053ff37d61f1c5c0aa"}]
+      }
+
+3. GetOrder
+   Method: GET
+   Endpoint: /api/order
+   Query Parameters:
+      orderId: [Order ID] (disabled)
+
+4. DeleteRequest
+   Method: DELETE
+   Endpoint: /api/order/[Order ID]
+
+5. get-all-order
+   Method: GET
+   Endpoint: /api/order
+
+Response:
+- All endpoints return responses with appropriate HTTP status codes.
+- Response content (JSON format) contains relevant data or error messages.
+
+Example Usage (cURL commands):
+1. Create a new order:
+   curl -X POST -H "Content-Type: application/json" -d '{"totalFee":20,"serviceIds":[{"id":"649970053ff37d61f1c5c0aa"},{"id":"649970053ff37d61f1c5c0ac"}],"userId":1}' http://localhost:9000/api/order
+
+2. Update an existing order:
+   curl -X PUT -H "Content-Type: application/json" -d '{"amount":2,"serviceIds":[{"id":"649970053ff37d61f1c5c0aa"}]}' http://localhost:9000/api/order/[Order ID]
+
+3. Retrieve information about orders:
+   curl http://localhost:9000/api/order
+
+4. Delete an order:
+   curl -X DELETE http://localhost:9000/api/order/[Order ID]
+
+5. Retrieve a list of all orders:
+   curl http://localhost:9000/api/order
+
+Important Notes:
+- Ensure proper authorization and permissions.
+- Use HTTPS in production.
+- Handle responses and errors as needed.
+
+This documentation provides a basic overview of the Win API.
+Refer to the API documentation for detailed info.
+
